@@ -14,7 +14,15 @@ namespace Assets.Scripts
 
         [SerializeField]
         private int _minSplitAreaWidth = 4, _minSplitAreaHeight = 3;
-        
+
+        [SerializeField]
+        private int _offset = 0;
+
+        [SerializeField]
+        private List<ClimateZoneModel> _climateZoneModels;
+
+        private List<AreaVisualModel> _climateAreas = new List<AreaVisualModel>();
+
         protected override void StartProceduralGeneration()
         {
             CreateAreas();
@@ -25,14 +33,36 @@ namespace Assets.Scripts
             BoundsInt splitingArea = new BoundsInt((Vector3Int)_startPosition, new Vector3Int(_areaWidth, _areaHeight, 0)); 
 
             var splitedAreas = BinarySpacePartitionAlgorithm.Generate(splitingArea, _minSplitAreaWidth, _minSplitAreaHeight);
+            
+            CreateClimateAreas(splitedAreas);
 
-            HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
-            floor = CreateClimateAreas();
+            foreach(var climateArea in _climateAreas)
+            {
+                _tilemapVisualizer.PaintFloorTiles(climateArea);
+            }
         }
 
-        private HashSet<Vector2Int> CreateClimateAreas()
+        private void CreateClimateAreas(List<BoundsInt> areaList)
         {
-            throw new NotImplementedException();
+            HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
+            _climateAreas.Clear();
+
+            foreach (var area in areaList)
+            {
+                for(int column = _offset; column < area.size.x - _offset; column++)
+                {
+                    for (int row = _offset; row < area.size.y - _offset; row++)
+                    {
+                        Vector2Int position = (Vector2Int)area.min + new Vector2Int(column, row);
+                        floor.Add(position);
+                    }
+                }
+
+                int randomIndex = UnityEngine.Random.Range(0, _climateZoneModels.Count);
+
+                _climateAreas.Add(new AreaVisualModel(_climateZoneModels[randomIndex], floor));
+                floor.Clear();
+            }
         }
     }
 }

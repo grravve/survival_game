@@ -8,11 +8,11 @@ using UnityEngine;
 
 public class MapGeneratorEditor : Editor
 {
-    AbstractMapGenerator mapGenerator;
+    private AbstractMapGenerator _mapGenerator;
 
     private void Awake()
     {
-        mapGenerator = (AbstractMapGenerator)target;
+        _mapGenerator = (AbstractMapGenerator)target;
     }
 
     public override void OnInspectorGUI()
@@ -20,7 +20,7 @@ public class MapGeneratorEditor : Editor
         base.OnInspectorGUI();
         if (GUILayout.Button("Create map"))
         {
-            mapGenerator.GenerateMap();
+            _mapGenerator.GenerateMap();
         }
     }
 }

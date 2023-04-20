@@ -10,13 +10,13 @@ namespace Assets.Scripts
     public abstract class AbstractMapGenerator: MonoBehaviour
     {
         [SerializeField]
-        protected TilemapVisualizer _tilemapVisualizer = null;
+        protected TilemapVisualizer _tilemapVisualizer;
         [SerializeField]
         protected Vector2Int _startPosition = Vector2Int.zero;
 
         public void GenerateMap()
         {
-            // tilemapVisualizer.Clear();
+            _tilemapVisualizer.Clear();
             StartProceduralGeneration();
         }
 

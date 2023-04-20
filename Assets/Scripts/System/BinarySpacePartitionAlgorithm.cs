@@ -17,8 +17,8 @@ namespace Assets.Scripts
             while (areasQueue.Count > 0)
             {
                 var area = areasQueue.Dequeue();
-
-                if (area.size.x < minWidth && area.size.y < minHeight)
+                
+                if (area.size.x < minWidth || area.size.y < minHeight)
                 {
                     continue;
                 }
@@ -29,14 +29,14 @@ namespace Assets.Scripts
                 {
                     if (area.size.x >= minWidth * 2)
                     {
-                        SplitHorizontally(areasQueue, area);
+                        SplitVertically(minWidth, areasQueue, area);
 
                         continue;
                     }
 
                     if (area.size.y >= minHeight * 2)
                     {
-                        SplitVertically(areasQueue, area);
+                        SplitHorizontally(minHeight, areasQueue, area);
 
                         continue;
                     }
@@ -48,14 +48,14 @@ namespace Assets.Scripts
                 {
                     if (area.size.y >= minHeight * 2)
                     {
-                        SplitVertically(areasQueue, area);
+                        SplitHorizontally(minHeight, areasQueue, area);
 
                         continue;
                     }
 
                     if (area.size.x >= minWidth * 2)
                     {
-                        SplitHorizontally(areasQueue, area);
+                        SplitVertically(minWidth, areasQueue, area);
 
                         continue;
                     }
@@ -67,9 +67,9 @@ namespace Assets.Scripts
             return areasList;
         }
 
-        private static void SplitVertically(Queue<BoundsInt> areasQueue, BoundsInt splittingArea)
+        private static void SplitVertically(int minWidth, Queue<BoundsInt> areasQueue, BoundsInt splittingArea)
         {
-            int xSplit = Random.Range(1, splittingArea.x);
+            int xSplit = Random.Range(minWidth, splittingArea.size.x - minWidth);
 
             Vector3Int leftAreaSize = new Vector3Int(xSplit, splittingArea.size.y, splittingArea.size.z);
             Vector3Int rightAreaSize = new Vector3Int(splittingArea.size.x - xSplit, splittingArea.size.y, splittingArea.size.z);
@@ -81,9 +81,9 @@ namespace Assets.Scripts
             areasQueue.Enqueue(rightArea);
         }
 
-        private static void SplitHorizontally(Queue<BoundsInt> areasQueue, BoundsInt splittingArea)
+        private static void SplitHorizontally(int minHeight, Queue<BoundsInt> areasQueue, BoundsInt splittingArea)
         {
-            int ySplit = Random.Range(1, splittingArea.y);
+            int ySplit = Random.Range(minHeight, splittingArea.size.y - minHeight);
 
             Vector3Int downAreaSize = new Vector3Int(splittingArea.size.x, ySplit, splittingArea.size.z);
             Vector3Int upAreaSize = new Vector3Int(splittingArea.size.x, splittingArea.size.y - ySplit, splittingArea.size.z);
