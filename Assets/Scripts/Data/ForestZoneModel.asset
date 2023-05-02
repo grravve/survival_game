@@ -14,7 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Forest
   FloorTiles:
-  - {fileID: 11400000, guid: e4355716e2acc55448d6e7311ce978d0, type: 2}
+  - {fileID: 11400000, guid: d6389e2b7bd946e41acbd28bdbead79b, type: 2}
+  - {fileID: 11400000, guid: 2f4d99546b7734245bf569f038fbe7bd, type: 2}
+  - {fileID: 11400000, guid: e829222fdf0c8db4d9aede07ba05c3e4, type: 2}
+  - {fileID: 11400000, guid: ea56b6495cc2c284694d83bd7a3e8183, type: 2}
+  - {fileID: 11400000, guid: c396b0bd5ae6d664ab8b2bd621beff58, type: 2}
   WallTiles:
   - {fileID: 11400000, guid: 73df96e82882fc447bb937472e3abc6d, type: 2}
   - {fileID: 11400000, guid: 653f63f90bd1130419512b5af2ba8efe, type: 2}

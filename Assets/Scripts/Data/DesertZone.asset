@@ -15,4 +15,7 @@ MonoBehaviour:
   Name: 
   FloorTiles:
   - {fileID: 11400000, guid: f5e94b94154af8447b7efc02013d67e2, type: 2}
-  WallTiles: []
+  - {fileID: 11400000, guid: 68c2fe8dfa8031446a5772c3d4cc633a, type: 2}
+  - {fileID: 11400000, guid: 1337fa6cc015c9340b59e94c4f8d3e82, type: 2}
+  WallTiles:
+  - {fileID: 11400000, guid: e4636e30157460349871137374a4b39d, type: 2}
