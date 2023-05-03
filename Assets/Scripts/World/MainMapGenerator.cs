@@ -37,13 +37,13 @@ namespace Assets.Scripts
 
         private void CreateGameArea()
         {
-            BoundsInt limitingArea = new BoundsInt( new Vector3Int(_startPosition.x - _limiterValue, _startPosition.y - _limiterValue, 0), new Vector3Int(_areaWidth + _limiterValue * 2, _areaHeight + _limiterValue * 2, 0));
             BoundsInt splitingArea = new BoundsInt((Vector3Int)_startPosition, new Vector3Int(_areaWidth, _areaHeight, 0)); 
             
             List<Vector2Int> limitingAreaTilesPositions = CreateLimitingArea(splitingArea);
             _tilemapVisualizer.PaintLimitingAreaTiles(limitingAreaTilesPositions, _limiterTile);
 
             var splitedAreas = BinarySpacePartitionAlgorithm.Generate(splitingArea, _minSplitAreaWidth, _minSplitAreaHeight);
+           
             CreateClimateAreas(splitedAreas);
 
             foreach(var climateArea in _climateAreas)

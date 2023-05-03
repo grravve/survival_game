@@ -10,5 +10,7 @@ namespace Assets.Scripts
     {
         public string Name;
         public List<Tile> FloorTiles;
+        // Props
+        // NPCs
     }
 }

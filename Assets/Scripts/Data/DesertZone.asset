@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f859229fa3655e49b539d117fc40b84, type: 3}
   m_Name: DesertZone
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Desert
   FloorTiles:
   - {fileID: 11400000, guid: f5e94b94154af8447b7efc02013d67e2, type: 2}
   - {fileID: 11400000, guid: 68c2fe8dfa8031446a5772c3d4cc633a, type: 2}
   - {fileID: 11400000, guid: 1337fa6cc015c9340b59e94c4f8d3e82, type: 2}
-  WallTiles:
-  - {fileID: 11400000, guid: e4636e30157460349871137374a4b39d, type: 2}
