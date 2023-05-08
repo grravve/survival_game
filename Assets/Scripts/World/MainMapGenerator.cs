@@ -33,6 +33,7 @@ namespace Assets.Scripts
         protected override void StartProceduralGeneration()
         {
             CreateGameArea();
+            // Generate start items in the world
         }
 
         private void CreateGameArea()

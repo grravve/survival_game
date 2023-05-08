@@ -12,7 +12,6 @@ namespace Assets.Scripts
         
         private Rigidbody2D _playerRigidBody;
         private Animator _playerAnimator;
-        private PlayerCharacterManager _playerCharacter;
 
         private Vector2 _movementInputDirection;
 
@@ -22,7 +21,6 @@ namespace Assets.Scripts
         {
             _playerRigidBody = GetComponent<Rigidbody2D>();
             _playerAnimator = GetComponent<Animator>();
-            _playerCharacter = GetComponent<PlayerCharacterManager>();
         }
 
         private void Update()
@@ -66,25 +64,6 @@ namespace Assets.Scripts
         private void ApplyMovement()
         {
             _playerRigidBody.MovePosition(_playerRigidBody.position + _movementInputDirection * MoveSpeed * Time.fixedDeltaTime);
-        }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            ItemWorld item = collision.GetComponent<ItemWorld>();
-            
-            if (item == null)
-            {
-                return;
-            }
-
-            bool isAdded = _playerCharacter.Inventory.AddItem(item.GetItem());
-
-            if(isAdded)
-            {
-                item.DestroySelf();
-            }
-
-            Debug.Log("Item added");
         }
     }
 }

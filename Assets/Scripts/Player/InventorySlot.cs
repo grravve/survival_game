@@ -6,12 +6,12 @@ namespace Assets.Scripts
     {
         public Item Item { get; private set; }
         
-        private int _quantity;
+        public int Quantity { get; private set; }
 
         public InventorySlot()
         {
             Item = null;
-            _quantity = 0;
+            Quantity = 0;
         }
 
         public void AddItem(Item newItem)
@@ -19,11 +19,14 @@ namespace Assets.Scripts
             if(Item == null)
             {
                 Item = newItem;
+                Quantity++;
+
+                return;
             }
 
             if(Item.Equals(newItem))
             {
-                _quantity++;
+                Quantity++;
             }
         }
 
@@ -39,7 +42,7 @@ namespace Assets.Scripts
 
         public bool IsFull()
         {
-            if(_quantity >= Item.MaxStack)
+            if(Quantity >= Item.MaxStack)
             {
                 return true;
             }

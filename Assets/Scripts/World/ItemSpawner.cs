@@ -23,9 +23,11 @@ namespace Assets.Scripts
         public void SpawnItems()
         {
             ItemWorld.SpawnItemWorld(new Vector3(40, 70, 0), new Item(GetItemModel("OakTimber")), ItemPrefab);
+            ItemWorld.SpawnItemWorld(new Vector3(42, 70, 0), new Item(GetItemModel("OakTimber")), ItemPrefab);
+            ItemWorld.SpawnItemWorld(new Vector3(42, 70, 0), new Item(GetItemModel("OakTimber")), ItemPrefab);
         }
 
-        private ItemModel GetItemModel(string name)
+        public ItemModel GetItemModel(string name)
         {
             foreach(var item in ItemModels)
             {

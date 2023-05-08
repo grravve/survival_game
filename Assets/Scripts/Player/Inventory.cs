@@ -9,36 +9,35 @@ namespace Assets.Scripts.Player
     public class Inventory
     {
         public InventorySlot CurrentSlot { get; private set; }
+        public List<InventorySlot> InventorySlots { get; private set; }
 
-        private List<InventorySlot> _inventorySlots;
+        public event EventHandler OnItemAdded;
+
         private int _maxSlots;
 
         public Inventory(int maxSlots)
         {
             _maxSlots = maxSlots;
 
-            _inventorySlots = new List<InventorySlot>(_maxSlots);
+            InventorySlots = new List<InventorySlot>(_maxSlots);
 
             for(int i = 0; i < _maxSlots; i++)
             {
-                _inventorySlots.Add(new InventorySlot());
+                InventorySlots.Add(new InventorySlot());
             }
+
+            CurrentSlot = InventorySlots[0];
         }
 
         public bool AddItem(Item item)
         {
-            // cycle that to find slot with needed item
-            foreach(var slot in _inventorySlots)
+            foreach(var slot in InventorySlots)
             {
-                if(slot.IsEmpty())
+                if(slot.IsEmpty() || (slot.Item.Equals(item) && !slot.IsFull()))
                 {
                     slot.AddItem(item);
-                    return true;
-                }
+                    OnItemAdded?.Invoke(this, EventArgs.Empty);
 
-                if(slot.Item.Equals(item) && !slot.IsFull())
-                {
-                    slot.AddItem(item);
                     return true;
                 }
             }

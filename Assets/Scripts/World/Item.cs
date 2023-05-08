@@ -25,7 +25,7 @@ namespace Assets.Scripts
         
         public override bool Equals(object obj)
         {
-            if(obj == null || this.GetType().Equals(obj.GetType()))
+            if(obj == null || !this.GetType().Equals(obj.GetType()))
             {
                 return false;
             }
