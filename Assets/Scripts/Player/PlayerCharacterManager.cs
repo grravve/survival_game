@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.Player;
 using System;
 using UnityEngine;
+using static Assets.Scripts.PlayerMovementController;
+using static UnityEditor.Progress;
 
 namespace Assets.Scripts
 {
@@ -13,30 +15,25 @@ namespace Assets.Scripts
         [SerializeField] private int _maxInventorySlots = 25;
 
         public Inventory Inventory { get; private set; }
-
+       
         private void Awake()
         {
             Inventory = new Inventory(_maxInventorySlots);
             //Inventory.AddItem(new Item(ItemSpawner.Instance.GetItemModel("OakTimber")));
             //Inventory.AddItem(new Item(ItemSpawner.Instance.GetItemModel("BirchTimber")));
-
+            GetComponent<PlayerMovementController>().OnItemPickedUp += OnItemPickedUp;
             _inventoryUI.SetInventory(Inventory);
             Debug.Log("UI set inventory");
         }
 
         private void Start()
         {
-            ItemSpawner.Instance.SpawnItems();
+            ObjectSpawner.Instance.SpawnItems();
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnItemPickedUp(object sender, ItemPickedUpEventArgs e)
         {
-            ItemWorld item = collision.GetComponent<ItemWorld>();
-
-            if (item == null)
-            {
-                return;
-            }
+            ItemWorld item = e.pickedUpItem;
 
             bool isAdded = Inventory.AddItem(item.GetItem());
 

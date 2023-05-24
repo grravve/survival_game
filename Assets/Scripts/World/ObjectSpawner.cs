@@ -7,11 +7,11 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class ItemSpawner: MonoBehaviour
+    public class ObjectSpawner: MonoBehaviour
     {
         public GameObject ItemPrefab;
 
-        public static ItemSpawner Instance { get; private set; }
+        public static ObjectSpawner Instance { get; private set; }
 
         public List<ItemModel> ItemModels;
 
@@ -25,6 +25,26 @@ namespace Assets.Scripts
             ItemWorld.SpawnItemWorld(new Vector3(40, 70, 0), new Item(GetItemModel("OakTimber")), ItemPrefab);
             ItemWorld.SpawnItemWorld(new Vector3(42, 70, 0), new Item(GetItemModel("OakTimber")), ItemPrefab);
             ItemWorld.SpawnItemWorld(new Vector3(42, 70, 0), new Item(GetItemModel("OakTimber")), ItemPrefab);
+        }
+
+        public void SpawnItem(Vector2 position, string itemName)
+        {
+
+        }
+
+        public void SpawnProps(List<Vector2> positions, List<GameObject> prefabs)
+        {
+
+        }
+
+        public void SpawnAnimals(Vector2 position, GameObject prefab)
+        {
+
+        }
+
+        public void SpawnAnimal(Vector2 position, GameObject prefab)
+        {
+
         }
 
         public ItemModel GetItemModel(string name)

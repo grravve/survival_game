@@ -34,6 +34,7 @@ namespace Assets.Scripts
         {
             CreateGameArea();
             // Generate start items in the world
+            // Generate climate zone controllers
         }
 
         private void CreateGameArea()

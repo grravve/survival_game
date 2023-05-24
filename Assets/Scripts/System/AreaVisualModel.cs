@@ -17,5 +17,10 @@ namespace Assets.Scripts
             ClimateZoneModel = climateZoneModel;
             FloorTilePositions = new HashSet<Vector2Int>(floorTilePositions);
         }
+
+        public void ChangeClimateZoneModel(ClimateZoneModel newClimateZoneModel)
+        {
+            ClimateZoneModel = newClimateZoneModel;
+        }
     }
 }

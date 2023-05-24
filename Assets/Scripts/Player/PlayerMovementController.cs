@@ -1,3 +1,4 @@
+using Assets.Scripts.Player;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +10,13 @@ namespace Assets.Scripts
     public class PlayerMovementController : MonoBehaviour
     {
         public float MoveSpeed { get; private set; } = 3f;
-        
+
+        public event EventHandler<ItemPickedUpEventArgs> OnItemPickedUp;
+        public class ItemPickedUpEventArgs : EventArgs
+        {
+            public ItemWorld pickedUpItem;
+        }
+
         private Rigidbody2D _playerRigidBody;
         private Animator _playerAnimator;
 
@@ -25,7 +32,7 @@ namespace Assets.Scripts
 
         private void Update()
         {
-            HandleInput();
+            HandleMovementInput();
             CheckMovementDirection();
             UpdateAnimations();
         }
@@ -35,7 +42,7 @@ namespace Assets.Scripts
             ApplyMovement();
         }
 
-        private void HandleInput()
+        private void HandleMovementInput()
         {
             _movementInputDirection.x = Input.GetAxisRaw("Horizontal");
             _movementInputDirection.y = Input.GetAxisRaw("Vertical");
@@ -64,6 +71,18 @@ namespace Assets.Scripts
         private void ApplyMovement()
         {
             _playerRigidBody.MovePosition(_playerRigidBody.position + _movementInputDirection * MoveSpeed * Time.fixedDeltaTime);
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            ItemWorld item = collision.GetComponent<ItemWorld>();
+
+            if (item == null)
+            {
+                return;
+            }
+
+            OnItemPickedUp?.Invoke(this, new ItemPickedUpEventArgs { pickedUpItem = item });
         }
     }
 }
