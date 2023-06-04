@@ -41,6 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 700986667
+    locked: 0
   - name: Game Area
     uniqueID: 3935579821
     locked: 0

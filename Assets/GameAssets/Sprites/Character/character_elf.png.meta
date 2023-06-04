@@ -828,8 +828,8 @@ TextureImporter:
       character_elf_lefttside_run_3: 555918680
       character_elf_front_run_6: -380303173
       character_elf_front_run_8: 1693370255
-      character_elf_rightside_run_5: -1385964832
       character_elf_rightside_run_4: 1239515250
+      character_elf_rightside_run_5: -1385964832
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

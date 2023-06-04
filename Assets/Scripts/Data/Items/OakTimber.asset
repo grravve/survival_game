@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: OakTimber
   m_EditorClassIdentifier: 
   Name: OakTimber
-  MaxInSlot: 2
+  MaxInSlot: 25
   ItemSprite: {fileID: 1702586867, guid: b056fef19b50f4e48b7c6645074393b2, type: 3}
   Type: 7

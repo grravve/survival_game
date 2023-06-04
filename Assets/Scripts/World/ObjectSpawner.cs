@@ -24,12 +24,12 @@ namespace Assets.Scripts
         {
             ItemWorld.SpawnItemWorld(new Vector3(40, 70, 0), new Item(GetItemModel("OakTimber")), ItemPrefab);
             ItemWorld.SpawnItemWorld(new Vector3(42, 70, 0), new Item(GetItemModel("OakTimber")), ItemPrefab);
-            ItemWorld.SpawnItemWorld(new Vector3(42, 70, 0), new Item(GetItemModel("OakTimber")), ItemPrefab);
+            ItemWorld.SpawnItemWorld(new Vector3(42, 80, 0), new Item(GetItemModel("OakTimber")), ItemPrefab);
         }
 
         public void SpawnItem(Vector2 position, string itemName)
         {
-
+            ItemWorld.SpawnItemWorld((Vector3)position, new Item(GetItemModel(itemName)), ItemPrefab);
         }
 
         public void SpawnProps(List<Vector2> positions, List<GameObject> prefabs)

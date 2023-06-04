@@ -1,8 +1,6 @@
 ﻿using Assets.Scripts.Player;
-using System;
 using UnityEngine;
 using static Assets.Scripts.PlayerMovementController;
-using static UnityEditor.Progress;
 
 namespace Assets.Scripts
 {
@@ -22,12 +20,12 @@ namespace Assets.Scripts
             //Inventory.AddItem(new Item(ItemSpawner.Instance.GetItemModel("OakTimber")));
             //Inventory.AddItem(new Item(ItemSpawner.Instance.GetItemModel("BirchTimber")));
             GetComponent<PlayerMovementController>().OnItemPickedUp += OnItemPickedUp;
-            _inventoryUI.SetInventory(Inventory);
-            Debug.Log("UI set inventory");
         }
 
         private void Start()
         {
+            _inventoryUI.SetInventory(Inventory);
+            //Debug.Log("UI set inventory");
             ObjectSpawner.Instance.SpawnItems();
         }
 

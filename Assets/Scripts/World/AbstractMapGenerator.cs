@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -13,6 +8,11 @@ namespace Assets.Scripts
         protected TilemapVisualizer _tilemapVisualizer;
         [SerializeField]
         protected Vector2Int _startPosition = Vector2Int.zero;
+
+        /*protected void Awake()
+        {
+            GenerateMap();
+        }*/
 
         public void GenerateMap()
         {
