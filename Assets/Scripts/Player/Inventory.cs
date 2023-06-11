@@ -45,6 +45,16 @@ namespace Assets.Scripts.Player
             return false;
         }
 
+        public void ChangeCurrentSlot(int slotNumber)
+        {
+            if(slotNumber > InventorySlots.Count)
+            {
+                return;
+            }
+
+            CurrentSlot = InventorySlots[slotNumber - 1];
+        }
+
         public void UseCurrentItem()
         {
             //CurrentSlot.Item.Use();

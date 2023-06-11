@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static PlayerInteractionController;
 
 namespace Assets.Scripts
 {
@@ -15,6 +16,7 @@ namespace Assets.Scripts
 
         private Transform _standartInventoryObject;
         private Transform _standartInventoryCellContainer;
+        private Transform _standartInventoryHighlightCell;
         private List<Transform> _standartInventoryCells;
 
         private GameObject _extendedInventoryObject;
@@ -24,6 +26,7 @@ namespace Assets.Scripts
         private void Awake()
         {
             _standartInventoryObject = transform.Find("Standart_Inventory_Object");
+            _standartInventoryHighlightCell = _standartInventoryObject.Find("Selected_Cell_Highlight");
             _standartInventoryCellContainer = _standartInventoryObject.Find("Inventory_Cells");
             _standartInventoryCells = new List<Transform>();
 
@@ -31,19 +34,30 @@ namespace Assets.Scripts
             {
                 _standartInventoryCells.Add(cell);
             }
+
+            FindObjectOfType<PlayerInteractionController>().OnNumberKeyPressed += PlayerInteractionController_OnNumberKeyPressed;
         }
 
         public void SetInventory(Inventory inventory)
         {
             _characterInventory = inventory;
             _characterInventory.OnItemAdded += Inventory_OnItemAdded;
-            
+
+
             RefreshStandartInventoryUI();
         }
 
         private void Inventory_OnItemAdded(object sender, System.EventArgs e)
         {
             RefreshStandartInventoryUI();
+        }
+
+        private void PlayerInteractionController_OnNumberKeyPressed(object sender, NumberKeyPressedEventArgs e)
+        {
+            int pressedNumber = e.number;
+            Debug.Log("Event number key pressed");
+
+            SwitchItem(pressedNumber);
         }
 
         public void RefreshStandartInventoryUI()
@@ -85,6 +99,13 @@ namespace Assets.Scripts
             Transform cellItem = cell.Find("Cell_Item");
             cellItem.GetComponent<Image>().sprite = null;
             cellItem.gameObject.SetActive(false);
+        }
+        
+        private void SwitchItem(int cellNumber)
+        {
+            _characterInventory.ChangeCurrentSlot(cellNumber);
+
+            _standartInventoryHighlightCell.position = _standartInventoryCells[cellNumber - 1].position;
         }
     }
 }

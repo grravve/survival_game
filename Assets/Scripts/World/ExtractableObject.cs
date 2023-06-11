@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class ExtractableObject : MonoBehaviour, IDropable
+    public abstract class ExtractableObject : MonoBehaviour, IDropable
     {
         public List<ItemModel> DropedItems 
         { 
@@ -15,6 +15,18 @@ namespace Assets.Scripts
             { 
                 _dropedItems = value; 
             } 
+        }
+        
+        public List<ItemType> ItemsCanExtract
+        {
+            get
+            {
+                return _itemsCanExtract;
+            }
+            set
+            {
+                _itemsCanExtract = value;
+            }
         }
 
         public int MaxDropedItems 
@@ -29,25 +41,14 @@ namespace Assets.Scripts
             }
         }
 
-        [SerializeField] private int _maxDropedItems;
-        [SerializeField] private List<ItemModel> _dropedItems;
-
-        [SerializeField] private int _strength;
+        [SerializeField] protected int _maxDropedItems;
+        [SerializeField] protected List<ItemModel> _dropedItems;
+        [SerializeField] protected List<ItemType> _itemsCanExtract;
 
         protected void Start()
         {
             DropedItems = _dropedItems;
             MaxDropedItems = _maxDropedItems;
-        }
-
-        public void DecreaseStrength(int value)
-        {
-            _strength -= value;
-
-            if(_strength <= 0)
-            {
-                DropItems();
-            }
         }
 
         public void DropItems()
@@ -68,6 +69,13 @@ namespace Assets.Scripts
 
                 ObjectSpawner.Instance.SpawnItem(itemPosition, itemName);
             }
+        }
+
+        
+
+        public void Hit(int damage)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

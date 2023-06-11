@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3776677247171435997}
   - component: {fileID: 6551686130058831783}
   - component: {fileID: 797436532087879937}
-  - component: {fileID: 7101561692983186593}
+  - component: {fileID: 3649026700736192965}
   m_Layer: 0
   m_Name: BirchTreePrefab
   m_TagString: Untagged
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -359387475
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 2
   m_Sprite: {fileID: 964083454, guid: 09b94dfbfb1cd7b4fb52597f1e736c88, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -124,7 +124,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.12}
   m_Size: {x: 0.4044839, y: 0.87}
   m_Direction: 0
---- !u!114 &7101561692983186593
+--- !u!114 &3649026700736192965
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,10 +133,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6023160213678341543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e29e3193ac926a64fbe1a7493abf2bc7, type: 3}
+  m_Script: {fileID: 11500000, guid: a8c795f19569a4c4abb3d85afbfcb42c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxDropedItems: 5
   _dropedItems:
   - {fileID: 11400000, guid: 0519c12a4604a1440b86f035503f4056, type: 2}
-  _strength: 4
+  _itemsCanExtract: 01000000
+  _maxDropedItems: 4
+  _strength: 5

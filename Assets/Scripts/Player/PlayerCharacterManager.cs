@@ -17,7 +17,7 @@ namespace Assets.Scripts
         private void Awake()
         {
             Inventory = new Inventory(_maxInventorySlots);
-            //Inventory.AddItem(new Item(ItemSpawner.Instance.GetItemModel("OakTimber")));
+            Inventory.AddItem(new Axe(ObjectSpawner.Instance.GetItemModel("Iron Axe"), 1.2f));
             //Inventory.AddItem(new Item(ItemSpawner.Instance.GetItemModel("BirchTimber")));
             GetComponent<PlayerMovementController>().OnItemPickedUp += OnItemPickedUp;
         }
