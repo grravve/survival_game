@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f859229fa3655e49b539d117fc40b84, type: 3}
+  m_Name: ForestZoneModel
+  m_EditorClassIdentifier: 
+  MaxProps: 7
+  MinProps: 2
+  MaxNPC: 0
+  MinNPC: 0
+  Name: Forest
+  FloorTiles:
+  - {fileID: 11400000, guid: d6389e2b7bd946e41acbd28bdbead79b, type: 2}
+  - {fileID: 11400000, guid: 2f4d99546b7734245bf569f038fbe7bd, type: 2}
+  - {fileID: 11400000, guid: e829222fdf0c8db4d9aede07ba05c3e4, type: 2}
+  - {fileID: 11400000, guid: ea56b6495cc2c284694d83bd7a3e8183, type: 2}
+  - {fileID: 11400000, guid: c396b0bd5ae6d664ab8b2bd621beff58, type: 2}
+  ExtractableObjects:
+  - {fileID: 6023160213678341543, guid: 21d06cdf75c84df4fafade7707f8eee7, type: 3}
+  NPC: []

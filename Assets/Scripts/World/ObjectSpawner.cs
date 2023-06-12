@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -32,9 +28,34 @@ namespace Assets.Scripts
             ItemWorld.SpawnItemWorld((Vector3)position, new Item(GetItemModel(itemName)), ItemPrefab);
         }
 
-        public void SpawnProps(List<Vector2> positions, List<GameObject> prefabs)
+        public List<GameObject> SpawnProps(List<Vector2Int> positions, List<GameObject> prefabs, int minimalObjects, int maximumObjects)
         {
+            List<GameObject> props = new List<GameObject>();
 
+            for(int i = 0; i < prefabs.Count; i++)
+            {
+                for(int j = minimalObjects; j < Random.Range(minimalObjects, maximumObjects); j++)
+                {
+                    Vector2Int spawnPosition = positions[Random.Range(0, positions.Count - 1)];
+                    RaycastHit2D spawnPositionCheck = Physics2D.Raycast(spawnPosition, Vector2.zero);
+
+                    if(spawnPositionCheck.collider != null)
+                    {
+                        j--;
+                        continue;
+                    }
+
+                    props.Add(SpawnProp(spawnPosition, prefabs[i]));
+                }
+            }
+
+            return props;
+        }
+
+        public GameObject SpawnProp(Vector2 position, GameObject prefab)
+        {
+            Transform prop = Instantiate(prefab.transform, new Vector3(position.x, position.y + prefab.transform.localScale.x * 0.65f ), Quaternion.identity);
+            return prop.gameObject;
         }
 
         public void SpawnAnimals(Vector2 position, GameObject prefab)

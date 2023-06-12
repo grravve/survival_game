@@ -30,10 +30,14 @@ namespace Assets.Scripts
 
         private List<AreaVisualModel> _climateAreas = new List<AreaVisualModel>();
 
+        public ClimateZoneController ClimateZoneController { get; private set; }
+
         protected override void StartProceduralGeneration()
         {
             CreateGameArea();
-            // Generate climate zone controllers
+            // Generate climate zone controller
+            ClimateZoneController = new ClimateZoneController(_climateAreas);
+
             // Generate start items in the world
         }
 
@@ -108,5 +112,6 @@ namespace Assets.Scripts
 
             return positions.ToList();
         }
+
     }
 }

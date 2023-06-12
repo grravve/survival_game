@@ -55,7 +55,6 @@ public class PlayerInteractionController : MonoBehaviour
 
         if(Input.GetMouseButton(0))
         {
-            Debug.Log(_characterInventory.CurrentSlot.Item);
             _holdingTime = Time.time - _clickTime;
 
             if(_holdingTime < _minHoldingTime)

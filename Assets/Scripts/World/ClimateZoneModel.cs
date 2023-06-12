@@ -12,10 +12,15 @@ namespace Assets.Scripts
         public int MinProps;
         public int MaxNPC;
         public int MinNPC;
-        public string Name;
-        public List<Tile> FloorTiles;
         
+        public string Name;
+        
+        public List<Tile> FloorTiles;
+
         // Props
+        public List<GameObject> ExtractableObjects;
+
         // NPCs
+        public List<GameObject> NPC;
     }
 }
