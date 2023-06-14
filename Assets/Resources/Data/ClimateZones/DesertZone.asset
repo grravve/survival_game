@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f859229fa3655e49b539d117fc40b84, type: 3}
   m_Name: DesertZone
   m_EditorClassIdentifier: 
-  MaxProps: 7
-  MinProps: 4
+  MaxProps: 2
+  MinProps: 0
   MaxNPC: 0
   MinNPC: 0
   Name: Desert

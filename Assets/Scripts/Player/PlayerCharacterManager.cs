@@ -39,8 +39,6 @@ namespace Assets.Scripts
             {
                 item.DestroySelf();
             }
-
-            Debug.Log("Item added");
         }
     }
 }

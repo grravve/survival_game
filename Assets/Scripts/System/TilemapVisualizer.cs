@@ -50,5 +50,10 @@ namespace Assets.Scripts
             var position = tilemap.WorldToCell((Vector3Int)tilePosition);
             tilemap.SetTile(position, tile);
         }
+
+        public void RepaintTiles(IEnumerable<Vector2Int> tilesPositions, List<Tile> tiles)
+        {
+            PaintTiles(tilesPositions, _floorTilemap, tiles);
+        }
     }
 }

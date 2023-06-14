@@ -43,7 +43,7 @@ namespace Assets.Scripts
             _characterInventory = inventory;
             _characterInventory.OnItemAdded += Inventory_OnItemAdded;
 
-
+            _standartInventoryHighlightCell.position = _standartInventoryCells[0].position;
             RefreshStandartInventoryUI();
         }
 
@@ -55,7 +55,6 @@ namespace Assets.Scripts
         private void PlayerInteractionController_OnNumberKeyPressed(object sender, NumberKeyPressedEventArgs e)
         {
             int pressedNumber = e.number;
-            Debug.Log("Event number key pressed");
 
             SwitchItem(pressedNumber);
         }

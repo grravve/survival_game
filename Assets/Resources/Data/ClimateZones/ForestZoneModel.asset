@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f859229fa3655e49b539d117fc40b84, type: 3}
   m_Name: ForestZoneModel
   m_EditorClassIdentifier: 
-  MaxProps: 7
-  MinProps: 2
+  MaxProps: 60
+  MinProps: 3
   MaxNPC: 0
   MinNPC: 0
   Name: Forest
@@ -25,4 +25,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c396b0bd5ae6d664ab8b2bd621beff58, type: 2}
   ExtractableObjects:
   - {fileID: 6023160213678341543, guid: 21d06cdf75c84df4fafade7707f8eee7, type: 3}
+  - {fileID: 6023160213678341543, guid: 1211b5c869aff5a41b051329bfa6433c, type: 3}
   NPC: []

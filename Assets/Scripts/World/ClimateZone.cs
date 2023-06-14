@@ -2,39 +2,57 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts
 {
+    public class OnTilesChangedEventArgs : EventArgs
+    {
+        public List<Vector2Int> TilesPosition;
+        public List<Tile> Tiles;
+
+        public OnTilesChangedEventArgs(List<Vector2Int> tilesPosition, List<Tile> tiles)
+        {
+            TilesPosition = new List<Vector2Int>(tilesPosition);
+            Tiles = new List<Tile>(tiles);
+        }
+    }
+
     public class ClimateZone
     {
-        private string _zoneID;
-        
-        private AreaVisualModel _areaModel;
-        private ClimateZoneStateMachine _stateMachine;
+        public Guid ZoneID { get; private set; }
+        public AreaVisualModel CurrentAreaModel { get; private set; }
+        public EventHandler<OnTilesChangedEventArgs> OnTilesChanged;
 
-        private List<GameObject> _extractableObjects;
-        private List<GameObject> _npcs;
+        public ClimateZoneStateMachine StateMachine { get; private set; }
+
+        private List<GameObject> _extractableObjectsSpawned;
+        private List<GameObject> _npcsSpawned;
         private List<Vector2Int> _climateZonePosition;
         
         private readonly ClimateZoneModel[] _climateZoneModels;
 
+
         public ClimateZone(AreaVisualModel model)
         {
-            _zoneID = Guid.NewGuid().ToString();
+            ZoneID = Guid.NewGuid();
             _climateZoneModels = Resources.LoadAll<ClimateZoneModel>("Data/ClimateZones");
 
-            _areaModel = model;
-            _extractableObjects = _areaModel.ClimateZoneModel.ExtractableObjects;
-            _npcs = _areaModel.ClimateZoneModel.NPC;
-            _climateZonePosition = _areaModel.FloorTilePositions.ToList();
+            CurrentAreaModel = model;
+            _extractableObjectsSpawned = CurrentAreaModel.ClimateZoneModel.ExtractableObjects;
+            _npcsSpawned = CurrentAreaModel.ClimateZoneModel.NPC;
+            _climateZonePosition = CurrentAreaModel.FloorTilePositions.ToList();
 
-            Initialization();
+            int npcCount = UnityEngine.Random.Range(CurrentAreaModel.ClimateZoneModel.MinNPC, CurrentAreaModel.ClimateZoneModel.MaxNPC);
+            int extractableObjectCount = UnityEngine.Random.Range(CurrentAreaModel.ClimateZoneModel.MinProps, CurrentAreaModel.ClimateZoneModel.MaxProps);
 
-            _stateMachine = new ClimateZoneStateMachine();
-            _stateMachine.OnClimateZoneStateChanged += OnClimateZoneStateChanged_ChangeClimateModel;
+            SpawnZoneObjects(npcCount, extractableObjectCount);
 
-            IState initialState = _stateMachine.GetState(_areaModel.ClimateZoneModel.Name);
-            _stateMachine.Launch(initialState);
+            StateMachine = new ClimateZoneStateMachine(model.ClimateZoneModel, extractableObjectCount, npcCount);
+            StateMachine.OnClimateZoneStateChanged += OnClimateZoneStateChanged_ChangeClimateModel;
+
+            IState initialState = StateMachine.GetState(CurrentAreaModel.ClimateZoneModel.Name);
+            StateMachine.Launch(initialState);
         }
 
         ~ClimateZone()
@@ -42,21 +60,64 @@ namespace Assets.Scripts
             ClearZoneObjects();
         }
 
+        public List<GameObject> GetClimateZoneObjects()
+        {
+            List<GameObject> zoneObjects = new List<GameObject>();
+
+            zoneObjects.AddRange(_extractableObjectsSpawned);
+            zoneObjects.AddRange(_npcsSpawned);
+
+            return zoneObjects;
+        }
+       
         public void ClearZoneObjects()
         {
-            for(int i = 0; i < _extractableObjects.Count; i++)
+            for(int i = 0; i < _extractableObjectsSpawned.Count; i++)
             {
-                UnityEngine.Object.Destroy(_extractableObjects[i]);
+                UnityEngine.Object.Destroy(_extractableObjectsSpawned[i]);
             }
+
+            for (int i = 0; i < _npcsSpawned.Count; i++)
+            {
+                UnityEngine.Object.Destroy(_npcsSpawned[i]);
+            }
+
+            _extractableObjectsSpawned.Clear();
+            _npcsSpawned.Clear();
         }
 
-        private void OnClimateZoneStateChanged_ChangeClimateModel(object sender, ClimateZoneStateMachine.ClimateZoneStateChangedEventArgs e)
+        public void RemoveClimateZoneObject(GameObject deletingObject)
+        {
+            if(_extractableObjectsSpawned.Contains(deletingObject))
+            {
+                _extractableObjectsSpawned.Remove(deletingObject);
+                
+                return;
+            }
+
+            if (_npcsSpawned.Contains(deletingObject))
+            {
+                _npcsSpawned.Remove(deletingObject);
+
+                return;
+            }
+        }
+                
+        private void OnClimateZoneStateChanged_ChangeClimateModel(object sender, ClimateZoneStateChangedEventArgs e)
         {
             ClimateZoneModel newZoneModel = FindClimateZoneModel(e.NewModel);
             SetClimateZoneModel(newZoneModel);
+            StateMachine.SetClimateModel(newZoneModel);
             // Re-generate zone
-        }
+            int currentExtractableObjectsCount = StateMachine.CurrentExtractableObjects;
+            int currentNPC = StateMachine.CurrentNPCs;
 
+            OnTilesChanged.Invoke(this, new OnTilesChangedEventArgs(CurrentAreaModel.FloorTilePositions.ToList(), CurrentAreaModel.ClimateZoneModel.FloorTiles));
+            
+            ClearZoneObjects();
+            SpawnZoneObjects(currentNPC, currentExtractableObjectsCount);
+        }
+        
         private ClimateZoneModel FindClimateZoneModel(string name)
         {
             foreach(var climateZone in _climateZoneModels)
@@ -69,7 +130,7 @@ namespace Assets.Scripts
 
             return null;
         }
-
+        
         private void SetClimateZoneModel(ClimateZoneModel climateZoneModel)
         {
             if (climateZoneModel == null)
@@ -77,23 +138,12 @@ namespace Assets.Scripts
                 return;
             }
 
-            _areaModel.ChangeClimateZoneModel(climateZoneModel);
+            CurrentAreaModel.ChangeClimateZoneModel(climateZoneModel);
         }
 
-        public AreaVisualModel GetClimateAreaModel()
+        private void SpawnZoneObjects(int npcCount, int extractableObjectCount)
         {
-            return _areaModel;
-        }
-
-        private void Initialization()
-        {
-            SpawnZoneObjects();
-        }
-
-        private void SpawnZoneObjects()
-        {
-            // Spawn extractable objects
-            _extractableObjects = ObjectSpawner.Instance.SpawnProps(_climateZonePosition, _extractableObjects, _areaModel.ClimateZoneModel.MinProps, _areaModel.ClimateZoneModel.MaxProps);
+            _extractableObjectsSpawned = ObjectSpawner.Instance.SpawnProps(_climateZonePosition, _extractableObjectsSpawned, extractableObjectCount);
             // Spawn NPCs
         }
     }

@@ -1,38 +1,59 @@
-﻿using Mono.Cecil.Rocks;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
+    public class ClimateZoneStateChangedEventArgs : EventArgs
+    {
+        public string NewModel;
+
+        public ClimateZoneStateChangedEventArgs(string newModel)
+        {
+            NewModel = newModel;
+        }
+    }
+
+    public class ClimateZoneObjectDestroyedEventArgs : EventArgs
+    {
+        public GameObject DestroyedObject;
+
+        public ClimateZoneObjectDestroyedEventArgs(GameObject destroyedObject)
+        {
+            DestroyedObject = destroyedObject;
+        }
+    }
+
     public class ClimateZoneStateMachine : StateMachine
     {
-        private Dictionary<IState, string> _climateModels;
-
+        public EventHandler<ClimateZoneStateChangedEventArgs> OnClimateZoneStateChanged;      
+        public EventHandler<ClimateZoneObjectDestroyedEventArgs> OnClimateZoneObjectDestroyed;
+        
         public TaigaState TaigaState { get; private set; }
         public ForestState ForestState { get; private set; }
         public WastelandState WastelandState { get; private set; }
         public DesertState DesertState { get; private set; }
+       
+        public ClimateZoneModel CurrentModel { get; private set; }
+        
+        public int CurrentExtractableObjects { get; private set; }
+        public int CurrentNPCs { get; private set; }
 
-        public EventHandler<ClimateZoneStateChangedEventArgs> OnClimateZoneStateChanged;
-        public class ClimateZoneStateChangedEventArgs : EventArgs
+        private Dictionary<IState, string> _climateModels;
+
+        
+        public ClimateZoneStateMachine(ClimateZoneModel currentModel, int extractableObjectCount, int npcCount)
         {
-            public string NewModel;
+            CurrentModel = currentModel;
+            CurrentExtractableObjects = extractableObjectCount;
+            CurrentNPCs = npcCount;
 
-            public ClimateZoneStateChangedEventArgs(string newModel)
-            {
-                NewModel = newModel;
-            }
-        }
-
-        public ClimateZoneStateMachine()
-        {
             StatesInitialization();
         }
 
         public override void ChangeState(IState newState)
         {
-            string zoneModel = String.Empty;
+            string zoneModel = string.Empty;
             
             _climateModels.TryGetValue(newState, out zoneModel);
             OnClimateZoneStateChanged?.Invoke(this, new ClimateZoneStateChangedEventArgs(zoneModel));
@@ -58,6 +79,11 @@ namespace Assets.Scripts
             }
 
             return new ForestState();
+        }
+
+        public void SetClimateModel(ClimateZoneModel model)
+        {
+            CurrentModel = model;
         }
 
         protected override void StatesInitialization()

@@ -37,7 +37,7 @@ namespace Assets.Scripts
             CreateGameArea();
             // Generate climate zone controller
             ClimateZoneController = new ClimateZoneController(_climateAreas);
-
+            ClimateZoneController.OnTilesChanged += OnTilesChanged_RedrawTiles;
             // Generate start items in the world
         }
 
@@ -113,5 +113,9 @@ namespace Assets.Scripts
             return positions.ToList();
         }
 
+        private void OnTilesChanged_RedrawTiles(object sender, OnTilesChangedEventArgs e)
+        {
+            _tilemapVisualizer.RepaintTiles(e.TilesPosition, e.Tiles);
+        }
     }
 }

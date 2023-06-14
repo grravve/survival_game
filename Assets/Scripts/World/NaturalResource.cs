@@ -100,6 +100,7 @@ namespace Assets.Scripts
 
             if (Strength <= 0)
             {
+                ClimateZoneController.Instance.OnClimateZoneObjectDestroyed.Invoke(this, new ClimateZoneObjectDestroyedEventArgs(gameObject));
                 DropItems();
             }
         }

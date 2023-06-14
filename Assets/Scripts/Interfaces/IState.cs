@@ -3,5 +3,6 @@
     public interface IState
     {
         public void EnterToState(StateMachine stateMachine);
+ 
     }
 }

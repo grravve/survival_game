@@ -74,7 +74,6 @@ public class PlayerInteractionController : MonoBehaviour
 
         if(Input.GetMouseButtonUp(0))
         {
-            Debug.Log("Released");
             StopCoroutine(ExtractObject());
             _holdingTime = 0f;
         }
@@ -83,7 +82,7 @@ public class PlayerInteractionController : MonoBehaviour
     private IEnumerator ExtractObject()
     {
         _isExtracting = true;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.2f);
         HandleObjectExtraction();
         _isExtracting = false;
     }
@@ -113,6 +112,5 @@ public class PlayerInteractionController : MonoBehaviour
         }
 
         extractedObject.Extract();
-        Debug.Log("Hit");
     }
 }
