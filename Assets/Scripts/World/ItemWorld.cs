@@ -30,6 +30,8 @@ namespace Assets.Scripts
         {
             Transform transform = Instantiate(itemPrefab.transform, position, Quaternion.identity);
 
+            transform.position = position;
+
             ItemWorld itemWorld = transform.GetComponent<ItemWorld>();
             itemWorld.SetItem(item);
 

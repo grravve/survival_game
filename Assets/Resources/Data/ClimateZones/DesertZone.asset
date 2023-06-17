@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f859229fa3655e49b539d117fc40b84, type: 3}
   m_Name: DesertZone
   m_EditorClassIdentifier: 
-  MaxProps: 2
-  MinProps: 0
+  MaxProps: 5
+  MinProps: 1
   MaxNPC: 0
   MinNPC: 0
   Name: Desert
@@ -21,5 +21,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f5e94b94154af8447b7efc02013d67e2, type: 2}
   - {fileID: 11400000, guid: 68c2fe8dfa8031446a5772c3d4cc633a, type: 2}
   - {fileID: 11400000, guid: 1337fa6cc015c9340b59e94c4f8d3e82, type: 2}
-  ExtractableObjects: []
+  ExtractableObjects:
+  - {fileID: 6023160213678341543, guid: 1211b5c869aff5a41b051329bfa6433c, type: 3}
+  - {fileID: 6023160213678341543, guid: 1211b5c869aff5a41b051329bfa6433c, type: 3}
   NPC: []

@@ -32,10 +32,14 @@ namespace Assets.Scripts
 
         public ClimateZoneController ClimateZoneController { get; private set; }
 
+        private void OnEnable()
+        {
+            GenerateMap();
+        }
+
         protected override void StartProceduralGeneration()
         {
             CreateGameArea();
-            // Generate climate zone controller
             ClimateZoneController = new ClimateZoneController(_climateAreas);
             ClimateZoneController.OnTilesChanged += OnTilesChanged_RedrawTiles;
             // Generate start items in the world

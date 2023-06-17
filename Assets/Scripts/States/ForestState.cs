@@ -24,7 +24,7 @@ namespace Assets.Scripts
                 return;
             }
 
-            _context.OnClimateZoneObjectDestroyed += StatementCheck;
+            _context.OnClimateZoneObjectDestroyed += ClimateZoneObjectDestroyed;
 
             ClimateZoneModel currentModel = _context.CurrentModel;
 
@@ -37,7 +37,7 @@ namespace Assets.Scripts
             _currentAnimals = _context.CurrentNPCs;
         }
 
-        private void StatementCheck(object sender, ClimateZoneObjectDestroyedEventArgs e)
+        private void ClimateZoneObjectDestroyed(object sender, ClimateZoneObjectDestroyedEventArgs e)
         {
             GameObject destroyedObject = e.DestroyedObject;
             
@@ -59,8 +59,13 @@ namespace Assets.Scripts
 
             if(_currentExtractableObjects < _minimumExtractableObjects)
             {
-                _context.ChangeState(_context.DesertState);
-                Debug.Log("State cahnged to Desert state");
+                _context.ChangeState(_context.WastelandState);
+            }
+
+
+            if (_currentExtractableObjects > _maximumExtractableObjects)
+            {
+                _context.ChangeState(_context.TaigaState);
             }
         }
     }

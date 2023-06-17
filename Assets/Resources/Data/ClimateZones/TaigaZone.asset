@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f859229fa3655e49b539d117fc40b84, type: 3}
+  m_Name: TaigaZone
+  m_EditorClassIdentifier: 
+  MaxProps: 200
+  MinProps: 101
+  MaxNPC: 0
+  MinNPC: 0
+  Name: Taiga
+  FloorTiles:
+  - {fileID: 11400000, guid: 1a09562208a45ef4085b2e83190713e8, type: 2}
+  - {fileID: 11400000, guid: 2a18bd5a4a137864fa13855f9b067321, type: 2}
+  - {fileID: 11400000, guid: fef29b14cb808d048aaededfba70e27c, type: 2}
+  - {fileID: 11400000, guid: 2f4d99546b7734245bf569f038fbe7bd, type: 2}
+  - {fileID: 11400000, guid: d6389e2b7bd946e41acbd28bdbead79b, type: 2}
+  - {fileID: 11400000, guid: 8b016e536120d0b4e93b237fe8b69766, type: 2}
+  ExtractableObjects:
+  - {fileID: 6023160213678341543, guid: 21d06cdf75c84df4fafade7707f8eee7, type: 3}
+  - {fileID: 6023160213678341543, guid: 533448e6dc049a54592ab0106f46c058, type: 3}
+  - {fileID: 6023160213678341543, guid: b74b49a490b07714596308294352b1c5, type: 3}
+  - {fileID: 6023160213678341543, guid: f9013c4cdf2371741929450c95bd1061, type: 3}
+  - {fileID: 6023160213678341543, guid: df92e1e028c16384fa095f8df59c5fc0, type: 3}
+  - {fileID: 6023160213678341543, guid: df92e1e028c16384fa095f8df59c5fc0, type: 3}
+  NPC: []

@@ -59,7 +59,7 @@ namespace Assets.Scripts
 
         public GameObject SpawnProp(Vector2 position, GameObject prefab)
         {
-            Transform prop = Instantiate(prefab.transform, new Vector3(position.x + prefab.transform.localScale.x * 0.4f, position.y + prefab.transform.localScale.y * 0.65f ), Quaternion.identity);
+            Transform prop = Instantiate(prefab.transform, new Vector3(position.x + prefab.transform.localScale.x * 0.4f, position.y + prefab.transform.localScale.y * 1.2f ), Quaternion.identity);
             return prop.gameObject;
         }
 
