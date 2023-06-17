@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -30,8 +29,6 @@ namespace Assets.Scripts
         public static ItemWorld SpawnItemWorld(Vector3 position, Item item, GameObject itemPrefab)
         {
             Transform transform = Instantiate(itemPrefab.transform, position, Quaternion.identity);
-
-            transform.position = position;
 
             ItemWorld itemWorld = transform.GetComponent<ItemWorld>();
             itemWorld.SetItem(item);
