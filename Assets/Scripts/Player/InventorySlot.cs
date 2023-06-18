@@ -14,19 +14,19 @@ namespace Assets.Scripts
             Quantity = 0;
         }
 
-        public void AddItem(Item newItem)
+        public void AddItem(Item newItem, int quantity)
         {
-            if(Item == null)
+            if (Item == null)
             {
                 Item = newItem;
-                Quantity++;
+                Quantity += quantity;
 
                 return;
             }
 
-            if(Item.Equals(newItem))
+            if (Item.Equals(newItem))
             {
-                Quantity++;
+                Quantity += quantity;
             }
         }
 
@@ -52,7 +52,8 @@ namespace Assets.Scripts
 
         public void RemoveItem()
         {
-
+            Item = null;
+            Quantity = 0;
         }
     }
 }

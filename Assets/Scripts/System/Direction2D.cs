@@ -12,5 +12,10 @@ namespace Assets.Scripts
             new Vector2Int(1, 0), // Right
             new Vector2Int(-1, 0), //Left
         };
+
+        public static Vector2 GetRandomDirection()
+        {
+            return generalDirectionsList[Random.Range(0, generalDirectionsList.Count - 1)];
+        }
     }
 }

@@ -19,10 +19,18 @@ namespace Assets.Scripts
         {
             ItemCategory = model.Type;
             MaxStack = model.MaxInSlot;
-            Name = model.name;
+            Name = model.Name;
             ItemSprite = model.ItemSprite;
         }
-        
+
+        public Item(Item item)
+        {
+            ItemCategory = item.ItemCategory;
+            MaxStack = item.MaxStack;
+            Name = item.Name;
+            ItemSprite = item.ItemSprite;
+        }
+
         public override bool Equals(object obj)
         {
             if(obj == null || !this.GetType().Equals(obj.GetType()))

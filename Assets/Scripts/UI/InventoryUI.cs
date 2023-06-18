@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.Player;
+using CodeMonkey.Utils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,37 +21,45 @@ namespace Assets.Scripts
         private Transform _standartInventoryHighlightCell;
         private List<Transform> _standartInventoryCells;
 
-        private GameObject _extendedInventoryObject;
+        private Transform _extendedInventorySlotTemplate;
+        private Transform _extendedInventoryObject;
+        private Transform _extendedInventoryArea;
+        private Transform _extendedInventoryItemsArea;
+        private Transform _extendedInventoryCreateArea;
 
         private Inventory _characterInventory;
 
         private void Awake()
         {
-            _standartInventoryObject = transform.Find("Standart_Inventory_Object");
-            _standartInventoryHighlightCell = _standartInventoryObject.Find("Selected_Cell_Highlight");
-            _standartInventoryCellContainer = _standartInventoryObject.Find("Inventory_Cells");
-            _standartInventoryCells = new List<Transform>();
+            StandartInventoryInitialize();
+            ExtendedInventoryInitialize();
+            
+            var playerController = FindObjectOfType<PlayerInteractionController>();
 
-            foreach (Transform cell in _standartInventoryCellContainer)
+            if(playerController == null)
             {
-                _standartInventoryCells.Add(cell);
+                Debug.LogError("Player interaction script not found in UI script");
+                
+                return;
             }
 
-            FindObjectOfType<PlayerInteractionController>().OnNumberKeyPressed += PlayerInteractionController_OnNumberKeyPressed;
+            playerController.OnNumberKeyPressed += PlayerInteractionController_OnNumberKeyPressed;
+            playerController.OnExtendedInventoryKeyPressed += OnExtendedInventoryKeyPressed_CallExtendedInventory;
         }
 
         public void SetInventory(Inventory inventory)
         {
             _characterInventory = inventory;
-            _characterInventory.OnItemAdded += Inventory_OnItemAdded;
+            _characterInventory.OnItemListChanged += Inventory_OnItemListChanged;
 
             _standartInventoryHighlightCell.position = _standartInventoryCells[0].position;
-            RefreshStandartInventoryUI();
+            UpdateStandartInventoryUI();
         }
 
-        private void Inventory_OnItemAdded(object sender, System.EventArgs e)
+        private void Inventory_OnItemListChanged(object sender, System.EventArgs e)
         {
-            RefreshStandartInventoryUI();
+            UpdateStandartInventoryUI();
+            UpdateExtendedInventoryUI();
         }
 
         private void PlayerInteractionController_OnNumberKeyPressed(object sender, NumberKeyPressedEventArgs e)
@@ -59,14 +69,116 @@ namespace Assets.Scripts
             SwitchItem(pressedNumber);
         }
 
-        public void RefreshStandartInventoryUI()
+        private void OnExtendedInventoryKeyPressed_CallExtendedInventory(object sender, EventArgs e)
         {
+            bool standartInventoryIsActive = _standartInventoryObject.gameObject.activeSelf;
+            bool extenedInventoryIsActive = _extendedInventoryObject.gameObject.activeSelf;
+
+            _standartInventoryObject.gameObject.SetActive(!standartInventoryIsActive);
+            _extendedInventoryObject.gameObject.SetActive(!extenedInventoryIsActive);
+
+            UpdateStandartInventoryUI();
+            UpdateExtendedInventoryUI();
+        }
+
+        private void UpdateExtendedInventoryUI() 
+        {
+            if (!_extendedInventoryObject.gameObject.activeSelf)
+            {
+                return;
+            }
+
+            foreach (Transform child in _extendedInventoryItemsArea)
+            {
+                if(child == _extendedInventorySlotTemplate)
+                {
+                    continue;
+                }
+                Destroy(child.gameObject);
+            }
+
+            RectTransform slotTemplateRectTransform = _extendedInventorySlotTemplate.GetComponent<RectTransform>();
+            float startX = slotTemplateRectTransform.anchoredPosition.x;
+            float startY = slotTemplateRectTransform.anchoredPosition.y;
+            
+            int offsetX = 0;
+            int offsetY = 0;
+
+            float itemSlotCellSize = slotTemplateRectTransform.sizeDelta.x;
+
+            foreach(var itemSlot in _characterInventory.InventorySlots)
+            {
+                RectTransform itemSlotRectTransform = Instantiate(_extendedInventorySlotTemplate, _extendedInventoryItemsArea).GetComponent<RectTransform>();
+                itemSlotRectTransform.gameObject.SetActive(true);
+                itemSlotRectTransform.anchoredPosition = new Vector2(startX + offsetX * itemSlotCellSize, startY + offsetY * itemSlotCellSize);
+                itemSlotRectTransform.GetComponent<Button_UI>().ClickFunc = () =>
+                {
+
+                };
+
+                itemSlotRectTransform.GetComponent<Button_UI>().MouseRightClickFunc = () =>
+                {
+                    Debug.Log("Clicked");
+                    
+                    if(itemSlot.Item == null)
+                    {
+                        return;
+                    }
+
+                    InventorySlot duplicateItem = new InventorySlot();
+
+                    ItemWorld.DropItem(itemSlot.Item, itemSlot.Quantity);
+                    _characterInventory.RemoveItem(itemSlot.Item);
+                };
+
+
+                Image slotImage = itemSlotRectTransform.Find("ItemSlotHolder_Object").GetComponent<Image>();
+
+                if (itemSlot.Item == null)
+                {
+                    slotImage.gameObject.SetActive(false);
+                }
+                else
+                {
+                    slotImage.gameObject.SetActive(true);
+                    slotImage.sprite = itemSlot.Item.ItemSprite;
+                    // Quantity
+                }
+
+                TextMeshProUGUI uiText = itemSlotRectTransform.Find("ItemSlotQuantity_Object").GetComponent<TextMeshProUGUI>();
+                uiText.text = "";
+
+                if (itemSlot.Quantity > 1)
+                {
+                    uiText.text = itemSlot.Quantity.ToString();
+                }
+
+                offsetX++;
+
+                if(offsetX > 9)
+                {
+                    offsetX = 0;
+                    offsetY--;
+                }
+            }
+
+            return;
+        }
+
+        private void UpdateStandartInventoryUI()
+        {
+            if(!_standartInventoryObject.gameObject.activeSelf)
+            {
+                return;
+            }
+
             List<InventorySlot> inventorySlots = _characterInventory.InventorySlots.GetRange(0, 10);
 
             for(int i = 0; i < _standartInventoryCells.Count; i++)
             {
                 if (inventorySlots[i].IsEmpty())
                 {
+                    ResetItemInStandartCell(_standartInventoryCells[i]);
                     continue;
                 }
 
@@ -92,19 +204,46 @@ namespace Assets.Scripts
             }
 
         }
-
+        
         private void ResetItemInStandartCell(Transform cell)
         {
             Transform cellItem = cell.Find("Cell_Item");
-            cellItem.GetComponent<Image>().sprite = null;
+            Transform cellQuantity = cell.Find("Cell_Item_Quantity");
             cellItem.gameObject.SetActive(false);
+            cellQuantity.gameObject.SetActive(false);
         }
-        
+
         private void SwitchItem(int cellNumber)
         {
             _characterInventory.ChangeCurrentSlot(cellNumber);
 
             _standartInventoryHighlightCell.position = _standartInventoryCells[cellNumber - 1].position;
+        }
+
+        private void StandartInventoryInitialize()
+        {
+            _standartInventoryObject = transform.Find("StandartInventory_Object");
+            _standartInventoryHighlightCell = _standartInventoryObject.Find("Selected_Cell_Highlight");
+            _standartInventoryCellContainer = _standartInventoryObject.Find("Inventory_Cells");
+            _standartInventoryCells = new List<Transform>();
+
+            foreach (Transform cell in _standartInventoryCellContainer)
+            {
+                _standartInventoryCells.Add(cell);
+            }
+
+            _standartInventoryObject.gameObject.SetActive(true);
+        }
+
+        private void ExtendedInventoryInitialize()
+        {
+            _extendedInventoryObject = transform.Find("ExtendedInventory_Object");
+            _extendedInventoryArea = _extendedInventoryObject.Find("Inventory_Area");
+            _extendedInventoryItemsArea = _extendedInventoryArea.Find("InventoryItems_Area");
+            _extendedInventorySlotTemplate = _extendedInventoryItemsArea.Find("ItemSlotTemplate_Object");
+            _extendedInventoryArea = _extendedInventoryObject.Find("InventoryCreate_Area");
+
+            _extendedInventoryObject.gameObject.SetActive(false);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Assets.Scripts
         public class ItemPickedUpEventArgs : EventArgs
         {
             public ItemWorld pickedUpItem;
+            public int quantity;
         }
 
         private Rigidbody2D _playerRigidBody;

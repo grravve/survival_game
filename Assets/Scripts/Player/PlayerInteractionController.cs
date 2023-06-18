@@ -13,6 +13,7 @@ public class PlayerInteractionController : MonoBehaviour
     private Inventory _characterInventory;
 
     public EventHandler<NumberKeyPressedEventArgs> OnNumberKeyPressed;
+    public EventHandler OnExtendedInventoryKeyPressed;
     public class NumberKeyPressedEventArgs: EventArgs
     {
         public int number;
@@ -30,6 +31,20 @@ public class PlayerInteractionController : MonoBehaviour
     {
         HandleClick();
         HandleNumbersPress();
+        HandleInteractionLettersKeys();
+    }
+
+    private void HandleInteractionLettersKeys()
+    {
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            OnExtendedInventoryKeyPressed?.Invoke(this, EventArgs.Empty);
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     private void HandleNumbersPress()

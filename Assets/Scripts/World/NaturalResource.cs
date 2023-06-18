@@ -83,6 +83,7 @@ namespace Assets.Scripts
                 return;
             }
 
+
             for (int i = 0; i < Random.Range(1, MaxDropedItems); i++)
             {
                 string itemName = DropedItems[Random.Range(0, DropedItems.Count - 1)].name;
@@ -90,7 +91,7 @@ namespace Assets.Scripts
                 Vector2 offset = new Vector2(Random.Range(0, 1.5f), Random.Range(0, 0.5f));
                 Vector2 itemPosition = new Vector2(gameObject.transform.position.x + offset.x, gameObject.transform.position.y + offset.y);
 
-                ObjectSpawner.Instance.SpawnItem(itemPosition, itemName);
+                ObjectSpawner.Instance.SpawnItem(itemPosition, itemName, 1);
             }
         }
 

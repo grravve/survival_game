@@ -18,14 +18,14 @@ namespace Assets.Scripts
 
         public void SpawnItems()
         {
-            ItemWorld.SpawnItemWorld(new Vector3(40, 70, 0), new Item(GetItemModel("OakTimber")), ItemPrefab);
-            ItemWorld.SpawnItemWorld(new Vector3(42, 70, 0), new Item(GetItemModel("OakTimber")), ItemPrefab);
-            ItemWorld.SpawnItemWorld(new Vector3(42, 80, 0), new Item(GetItemModel("OakTimber")), ItemPrefab);
+            ItemWorld.SpawnItemWorld(new Vector3(40, 70, 0), new Item(GetItemModel("OakTimber")), 1, ItemPrefab);
+            ItemWorld.SpawnItemWorld(new Vector3(42, 70, 0), new Item(GetItemModel("OakTimber")), 1, ItemPrefab);
+            ItemWorld.SpawnItemWorld(new Vector3(42, 80, 0), new Item(GetItemModel("OakTimber")), 1, ItemPrefab);
         }
 
-        public void SpawnItem(Vector2 position, string itemName)
+        public void SpawnItem(Vector2 position, string itemName, int quantity)
         {
-            ItemWorld.SpawnItemWorld((Vector3)position, new Item(GetItemModel(itemName)), ItemPrefab);
+            ItemWorld.SpawnItemWorld((Vector3)position, new Item(GetItemModel(itemName)), quantity, ItemPrefab);
         }
 
         public List<GameObject> SpawnProps(List<Vector2Int> positions, List<GameObject> prefabs, int objectsCount)
